@@ -2,8 +2,11 @@
 <html lang="es">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>creado por álvaro - esquema claro con Small-Caps y partículas intensas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="cache-control" content="no-store, no-cache, must-revalidate, max-age=0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <title>creado por álvaro - esquema claro con small-caps y partículas intensas</title>
     <link href="https://fonts.googleapis.com/css2?family=poppins:wght400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         /* variables y estilos generales ultra compactos (ESQUEMA CLARO) */
@@ -31,12 +34,15 @@
             --line-height-base: 1.5em; 
         }
 
-        /* --- reglas clave: eliminar selección y resaltado de texto --- */
+        /* --- reglas clave: eliminar selección y resaltado de texto Y deshabilitar impresión/captura --- */
         body, main {
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
+            /* Intentos adicionales contra la impresión y captura */
+            pointer-events: auto; /* Revertir para que los clics funcionen */
+            -webkit-touch-callout: none; /* iOS */
         }
         
         a, a:focus, a:active {
@@ -137,14 +143,13 @@
             color: var(--text-black); 
         }
         .navbar .logo {
-            /* CAMBIO: HACER AÚN MÁS PEQUEÑO EL TEXTO */
-            font-size: 0.6em; /* Más pequeño aún */
+            font-size: 0.6em; 
             font-weight: 800;
             text-transform: uppercase; 
-            animation: blink-fade 2s infinite alternate; /* Animación de parpadeo */
+            animation: blink-fade 2s infinite alternate; 
         }
 
-        /* ANIMACIÓN: Parpadeo (sin cambios) */
+        /* ANIMACIÓN: Parpadeo */
         @keyframes blink-fade {
             0% { opacity: 1; }
             50% { opacity: 0.3; } 
@@ -466,7 +471,7 @@
             <h2>selecciona tu servicio</h2>
             <div class="app-cards-container">
                 
-                <a class="card-link" href="https://wa.me/+59171664587">
+                <a class="card-link" href="https://wa.me/+59171664587?text=_REC%C3%81RGAME%20CR%C3%89DITO%20DE%20ENTEL_">
                     <div class="app-card">
                         <div class="header-icons">
                             <span class="arrow">←</span>
@@ -486,7 +491,7 @@
                     </div>
                 </a>
 
-                <a class="card-link" href="https://wa.me/+59171664587">
+                <a class="card-link" href="https://wa.me/+59171664587?text=_REC%C3%81RGAME%20CR%C3%89DITO%20PARA%20TIGO_">
                     <div class="app-card">
                         <div class="header-icons">
                             <span class="arrow">←</span>
@@ -506,7 +511,7 @@
                     </div>
                 </a>
 
-                <a class="card-link" href="https://wa.me/+59171664587">
+                <a class="card-link" href="https://wa.me/+59171664587?text=_REC%C3%81RGAME%20CR%C3%89DITO%20PARA%20VIVA_">
                     <div class="app-card">
                         <div class="header-icons">
                             <span class="arrow">←</span>
@@ -525,6 +530,61 @@
             </div>
         </section>
     </main>
+
+    <script>
+        // 1. Deshabilitar el menú contextual (clic derecho)
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // 2. Deshabilitar combinaciones de teclado comunes para inspección y captura/impresión
+        document.addEventListener('keydown', function(event) {
+            // F12 (Herramientas de desarrollador)
+            if (event.keyCode == 123) {
+                event.preventDefault();
+            }
+            
+            // Ctrl+Shift+I (Inspeccionar elemento)
+            if (event.ctrlKey && event.shiftKey && event.keyCode == 73) {
+                event.preventDefault();
+            }
+            
+            // Ctrl+Shift+J (Consola)
+            if (event.ctrlKey && event.shiftKey && event.keyCode == 74) {
+                event.preventDefault();
+            }
+
+            // Ctrl+U (Ver código fuente)
+            if (event.ctrlKey && event.keyCode == 85) {
+                event.preventDefault();
+            }
+            
+            // Ctrl+P (Imprimir)
+            if (event.ctrlKey && event.keyCode == 80) {
+                event.preventDefault();
+            }
+            
+            // Bloquear la tecla Imprimir Pantalla (Print Screen) en algunos navegadores/entornos
+            if (event.key === 'PrintScreen' || event.key === 'PrtSc' || event.keyCode == 44) {
+                 // Puedes mostrar una alerta o hacer otra cosa aquí si lo detectas
+            }
+
+        }, false);
+        
+        // 3. Bloqueo de impresión/medios de impresión CSS 
+        const style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML = '@media print { body { visibility: hidden !important; } }';
+        document.head.appendChild(style);
+
+        // 4. Intento para iOS/navegadores móviles (blur/visibilidad al cambiar de pestaña)
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                document.body.style.filter = 'blur(10px)'; // Aplica un desenfoque
+            } else {
+                document.body.style.filter = 'none'; // Quita el desenfoque
+            }
+        });
+
+    </script>
 
 </body>
 </html>
